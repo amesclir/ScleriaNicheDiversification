@@ -1,0 +1,9 @@
+#$ -S /bin/bash
+#$ -N R_char18
+#$ -wd /home/aescudero/R/char18/
+#$ -o R_char18.salida
+#$ -e R_char18.err
+#$ -q diaria_simple
+module load R-3.4.2-Bioconductor
+export LD_LIBRARY_PATH=/home/software/libraries/fftw-3.3.8-2/lib:$LD_LIBRARY_PATH
+R CMD BATCH script1.R

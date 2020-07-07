@@ -1,0 +1,188 @@
+---
+title: "ScleriaNicheDiversification"
+author: "Marcial Escudero"
+date: "6/30/2020"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+Setting up the tree
+
+```{r}
+library(ape)
+#opening tree
+phy <- read.tree("tree.tree")
+phy
+length(phy$tip.label)
+is.ultrametric(phy)
+plot(phy, show.tip.label=F)
+is.rooted(phy)
+#Loading the data
+mydata <- read.csv("mydata.csv")
+mydata
+mydata2 <- read.csv("mydata2.csv")
+mydata2
+mydata3 <- read.csv("mydata3.csv")
+mydata3
+
+
+setdiff(phy$tip.label, mydata[,1]) 
+setdiff(mydata[,1],phy$tip.label) 
+#The tree is ready for the analyses!!!!!!
+
+#Setting the char bio1
+char1.p <- mydata[,2] 
+names(char1.p) = mydata[,1]
+char1.p
+#Setting the char bio1 variation
+sd1 <- sqrt(mydata2[,2])
+names(sd1) = mydata2[,1]
+sd1
+
+#Setting the char bio4
+char4.p <- mydata[,5] 
+names(char4.p) = mydata[,1]
+char4.p
+#Setting the char bio4 variation
+sd4 <- sqrt(mydata2[,5])
+names(sd4) = mydata2[,1]
+sd4
+
+#Setting the char bio7
+char7.p <- mydata[,8] 
+names(char7.p) = mydata[,1]
+char7.p
+#Setting the char bio7 variation
+sd7 <- sqrt(mydata2[,8])
+names(sd7) = mydata2[,1]
+sd7
+
+#Setting the char bio12
+char12.p <- mydata[,13] 
+names(char12.p) = mydata[,1]
+char12.p
+#Setting the char bio12 variation
+sd12 <- sqrt(mydata2[,13])
+names(sd12) = mydata2[,1]
+sd12
+
+#Setting the char bio15
+char15.p <- mydata[,16] 
+names(char15.p) = mydata[,1]
+char15.p
+#Setting the char bio15 variation
+sd15 <- sqrt(mydata2[,16])
+names(sd15) = mydata2[,1]
+sd15
+
+#Setting the char bio18
+char18.p <- mydata[,19] 
+names(char18.p) = mydata[,1]
+char18.p
+#Setting the char bio18 variation
+sd18 <- sqrt(mydata2[,19])
+names(sd18) = mydata2[,1]
+sd18
+
+#Setting the char pca1
+charpca1.p <- mydata3[,2] 
+names(charpca1.p) = as.character(mydata3[,1])
+charpca1.p
+#Setting the char bio18 variation
+sdpca1 <- rep(0.5, 140)
+names(sdpca1) = as.character(mydata3[,1])
+sdpca1
+
+#Setting the char pca2
+charpca2.p <- mydata3[,3] 
+names(charpca2.p) = as.character(mydata3[,1])
+charpca2.p
+#Setting the char bio18 variation
+sdpca2 <- rep(0.5, 140)
+names(sdpca2) = as.character(mydata3[,1])
+sdpca2
+
+#Setting the char pca1
+charpca3.p <- mydata3[,4] 
+names(charpca3.p) = as.character(mydata3[,1])
+charpca3.p
+#Setting the char bio18 variation
+sdpca3 <- rep(0.5, 140)
+names(sdpca3) = as.character(mydata3[,1])
+sdpca3
+
+save.image(file="myEnvironment.RData")
+
+```
+
+
+OK. Now the Quasse analyses for bio1
+
+```{r}
+load(file="myEnvironment.RData")
+library(diversitree)
+p <- starting.point.quasse(phy, char1.p)
+p
+xr <- range(char1.p) + c(-1, 1) * 20 * p1["diffusion"]
+xr
+linear.x <- make.linear.x(xr[1], xr[2])
+make <- function(lambda, mu) make.quasse(phy, char1.p, sd1, lambda, mu, sampling.f=0.50)
+nodrift <- function(f) constrain(f, drift ~ 0)
+f.c.c <- make(constant.x, constant.x)
+f.l.c <- make(linear.x, constant.x)
+f.s.c <- make(sigmoid.x, constant.x) 
+f.h.c <- make(noroptimal.x, constant.x) 
+ 
+control <- list(parscale = 0.1, reltol = 0.001)
+bio1.mle.c.c <- find.mle(nodrift(f.c.c), p, lower = 0, control = control, verbose = 0)
+bio1.p.c <- bio1.mle.c.c$par
+bio1.p.c
+bio1.p.l.c <- c(bio1.p.c[1], l.m = 0, bio1.p.c[2:3])
+bio1.p.l.c
+bio1.p.s.c <- c(bio1.p.c[1], bio1.p.c[1], mean(char1.p), 1, bio1.p.c[2:3])
+bio1.p.s.c
+bio1.p.h.c <- c(bio1.p.c[1], bio1.p.c[1], mean(char1.p), 1, bio1.p.c[2:3])
+bio1.p.h.c
+bio1.mle.d.c.c <- find.mle(f.c.c, coef(bio1.mle.c.c, TRUE), control = control, verbose = 0)
+bio1.mle.l.c <- find.mle(nodrift(f.l.c), bio1.p.l.c, control = control, verbose = 0)
+bio1.mle.d.l.c <- find.mle(f.l.c, coef(bio1.mle.l.c, TRUE), control = control, verbose = 0)
+bio1.mle.s.c <- find.mle(nodrift(f.s.c), bio1.p.s.c, control = control, verbose = 0)
+bio1.mle.d.s.c <- find.mle(f.s.c, coef(bio1.mle.s.c, TRUE), control = control, verbose = 0)
+bio1.mle.h.c <- find.mle(nodrift(f.h.c), bio1.p.h.c, control = control, verbose = 0)
+bio1.mle.d.h.c <- find.mle(f.h.c, coef(bio1.mle.h.c, TRUE), control = control, verbose = 0)
+bio1.anova <- anova(bio1.mle.c.c, OU.constant.constant = bio1.mle.d.c.c, BM.linear.constant = bio1.mle.l.c, OU.linear.constant = bio1.mle.d.l.c, BM.sigmoid.constant = bio1.mle.s.c, OU.sigmoid.constant = bio1.mle.d.s.c)
+bio1.anova
+save.image(file="bio1myEnvironmentbio1.RData")
+
+```
+
+
+Let's check the results for bio1
+
+```{r}
+load(file="myEnvironment.RData")
+#printing results
+char.p <- seq(12,132)
+lambda.d.h.c <- noroptimal.x(char.p, bio1.mle.d.h.c$par[1], bio1.mle.d.h.c$par[2], bio1.mle.d.h.c$par[3], bio1.mle.d.h.c$par[4])
+plot(char.p, lambda.d.h.c, type = "l")
+lambda.d.c.c <- constant.x(char.p, bio1.mle.d.c.c$par[1])
+plot(char.p, lambda.d.c.c, type = "l")
+lambda.d.s.c <- sigmoid.x(char.p, bio1.mle.d.s.c$par[1], bio1.mle.d.s.c$par[2], bio1.mle.d.s.c$par[3], bio1.mle.d.s.c$par[4])
+plot(char.p, lambda.d.s.c, type = "l")
+lambda.d.l.c <- linear.x(char.p, bio1.mle.d.l.c$par[1], bio1.mle.d.l.c$par[2])
+plot(char.p, lambda.d.l.c, type = "l")
+lambda.h.c <- noroptimal.x(char.p, bio1.mle.h.c$par[1], bio1.mle.h.c$par[2], bio1.mle.h.c$par[3], bio1.mle.h.c$par[4])
+plot(char.p, lambda.h.c, type = "l")
+lambda.c.c <- constant.x(char.p, bio1.mle.c.c$par[1])
+plot(char.p, lambda.c.c, type = "l")
+lambda.s.c <- sigmoid.x(char.p, bio1.mle.s.c$par[1], bio1.mle.s.c$par[2], bio1.mle.s.c$par[3], bio1.mle.s.c$par[4])
+plot(char.p, lambda.s.c, type = "l")
+lambda.l.c <- linear.x(char.p, bio1.mle.l.c$par[1], bio1.mle.l.c$par[2])
+plot(char.p, lambda.l.c, type = "l")
+# the plot of the current best model... it's little rare, the peak is too much strong
+save.image(file="bio1myEnvironment.RData")
+```
+
+
+

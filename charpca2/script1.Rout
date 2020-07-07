@@ -1,0 +1,953 @@
+
+R version 3.4.2 (2017-09-28) -- "Short Summer"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R es un software libre y viene sin GARANTIA ALGUNA.
+Usted puede redistribuirlo bajo ciertas circunstancias.
+Escriba 'license()' o 'licence()' para detalles de distribucion.
+
+R es un proyecto colaborativo con muchos contribuyentes.
+Escriba 'contributors()' para obtener más información y
+'citation()' para saber cómo citar R o paquetes de R en publicaciones.
+
+Escriba 'demo()' para demostraciones, 'help()' para el sistema on-line de ayuda,
+o 'help.start()' para abrir el sistema de ayuda HTML con su navegador.
+Escriba 'q()' para salir de R.
+
+> library(ape)
+> #opening tree
+> phy <- read.tree("tree.tree")
+> phy
+
+Phylogenetic tree with 140 tips and 139 internal nodes.
+
+Tip labels:
+	Scleria_abortiva_SC226, Scleria_rosea_JG12, Scleria_madagascariensis_JG23, Scleria_angusta_SC072, Scleria_baronii_SC206, Scleria_rutenbergiana_JG03, ...
+
+Rooted; includes branch lengths.
+> length(phy$tip.label)
+[1] 140
+> is.ultrametric(phy)
+[1] TRUE
+> plot(phy, show.tip.label=F)
+> is.rooted(phy)
+[1] TRUE
+> #Loading the data
+> mydata3 <- read.csv("mydata3.csv")
+> mydata3
+                                            tips         PC1         PC2
+1                         Scleria_abortiva_SC226  0.79108331 -1.88305141
+2                          Scleria_angusta_SC072  0.58065194 -1.56216088
+3                    Scleria_ankaratrensis_SC022 -1.12730512 -1.44120571
+4                           Scleria_arguta_SC125 -0.04456674 -0.30744040
+5                         Scleria_balansae_SC203 -1.22355178 -2.12682673
+6                        Scleria_baldwinii_SC187 -2.53172020 -2.69667689
+7                     Scleria_bambariensis_SC204 -2.44596914  1.23145060
+8                   Scleria_baroni-clarkei_SC205  1.41416493 -0.31834837
+9                          Scleria_baronii_SC206 -0.68886384 -1.12610986
+10                      Scleria_bequaertii_SC381  1.79696715 -0.25192239
+11                         Scleria_biflora_SC108  0.27591881 -0.89562750
+12                        Scleria_boivinii_SC209  1.61432434 -0.19404667
+13                       Scleria_bourgeaui_SC313 -3.88570013  0.83780633
+14                       Scleria_bracteata_SC068  1.33964255  0.15674399
+15                         Scleria_brownii_SC059 -1.06616090  0.84212802
+16                       Scleria_bulbifera_SC378 -0.99231675  0.98340682
+17                      Scleria_burchellii_SC453  0.20119870  0.50042011
+18                       Scleria_calcicola_SC070 -2.46848427  1.12529382
+19                   Scleria_carphiformis_SC062b  1.36780484  0.84805695
+20                        Scleria_castanea_SC046 -0.88467234 -0.11796454
+21                      Scleria_catophylla_SC049  0.69719195  0.14754806
+22                        Scleria_ciliaris_SC060  0.55588915  0.59758583
+23                         Scleria_ciliata_SC189 -3.71790558 -2.92366557
+24                         Scleria_comosa_SC063b  0.95157352  0.66236772
+25                       Scleria_composita_SC293 -0.31117493 -0.73326360
+26                       Scleria_corymbosa_SC096  1.04011441 -0.82020723
+27                      Scleria_cuyabensis_SC457  0.33766567  0.80665394
+28                        Scleria_cyperina_SC127  2.34982950  0.13630542
+29                      Scleria_delicatula_SC288 -1.10947199  0.88594887
+30                     Scleria_depauperata_SC214  2.09639762 -2.34248376
+31                        Scleria_depressa_SC054  0.19694732  1.73441981
+32                         Scleria_distans_SC177  0.63129087 -0.69553779
+33       Scleria_distans_var._chondrocarpa_SC031 -0.68060656 -1.56703054
+34                        Scleria_dregeana_SC384 -2.78047870 -0.21683150
+35                      Scleria_eggersiana_SC275  1.27729401  0.07753011
+36                   Scleria_erythrorrhiza_SC023 -0.20208634  0.68841423
+37              Scleria_flagellum-nigrorum_SC129  3.01589008 -0.65402624
+38                        Scleria_flexuosa_SC351 -2.31912737 -0.27286498
+39                         Scleria_foliosa_SC130 -1.03987904  1.29799935
+40                     Scleria_fulvipilosa_SC294 -1.74593209  1.26663074
+41                       Scleria_gaertneri_SC271  1.66718077 -0.48406719
+42                       Scleria_georgiana_SC186 -0.73220173 -1.81192238
+43                          Scleria_glabra_SC269 -1.03250599  1.65416908
+44                        Scleria_globonux_SC133 -1.00892574  2.44281018
+45                      Scleria_goossensii_SC134  1.79994019  0.15964080
+46                    Scleria_greigiifolia_SC075 -1.03590080  0.43394132
+47                   Scleria_hildebrandtii_SC137  0.42403904  1.64027212
+48                    Scleria_hilsenbergii_SC032 -0.96033832 -1.00294888
+49                        Scleria_hirtella_SC445  0.63361932 -0.27616190
+50                       Scleria_hispidior_SC455 -0.95463332  1.52303972
+51                       Scleria_hispidula_SC439 -1.51610581  1.81570395
+52                      Scleria_interrupta_SC318  1.14088498  0.52227759
+53                      Scleria_iostephana_SC140  0.17361105  0.66860608
+54                          Scleria_kerrii_SC102  0.04788779  0.02056936
+55                       Scleria_lacustris_SC004 -0.12112020 -0.24524777
+56                       Scleria_lagoensis_SC224  0.43288931  0.76052272
+57                       Scleria_latifolia_SC141  1.13188136 -0.64959387
+58                            Scleria_laxa_SC142  0.29283253  1.09111970
+59                       Scleria_laxiflora_SC446 -1.56781690  0.77908759
+60                    Scleria_leptostachya_SC296  0.12671007  0.24044219
+61                        Scleria_liberica_SC436  1.48004644  0.30783905
+62                     Scleria_lithosperma_SC182  0.77336810  0.38539292
+63                  Scleria_longispiculata_SC144 -2.80686018  1.12604686
+64                    Scleria_mackaviensis_SC110 -3.36979498 -2.00098466
+65                       Scleria_macrogyne_SC104  2.19705422  0.10074611
+66                     Scleria_macrophylla_SC145  1.92618235 -0.33795896
+67                 Scleria_madagascariensis_JG23 -0.33196612 -1.79610508
+68                     Scleria_maypurensis_SC451  2.09353952  1.17143937
+69                    Scleria_melanomphala_SC112 -0.24477443  0.01218258
+70                    Scleria_melanotricha_SC449  0.36505588  0.88114208
+71                      Scleria_microcarpa_SC107  2.20377290 -0.41148256
+72                           Scleria_mitis_SC148  1.98473593 -0.40630954
+73                    Scleria_mongomoensis_SC029  1.62905764 -0.47867007
+74                     Scleria_naumanniana_SC150  1.77093109  0.74189404
+75                          Scleria_neesii_SC023  2.32062642 -0.07342960
+76                       Scleria_nyasensis_SC232  0.29012388  0.30875869
+77                          Scleria_oblata_SC093  2.45065496  0.18215042
+78                          Scleria_obtusa_SC154  1.00645922 -0.05669210
+79                       Scleria_oligantha_SC236 -4.44719579 -3.31109780
+80                      Scleria_panicoides_SC155 -0.43737846 -1.90656247
+81                      Scleria_pantadenia_SC252 -0.43064293  1.50572652
+82                      Scleria_paupercula_SC382 -1.99179213  1.32976623
+83                     Scleria_pedicellata_SC435  1.48856179 -0.26741352
+84                     Scleria_pergracilis_SC123 -0.33141777  1.53742232
+85  Scleria_pergracilis_var._brachystachys_SC349 -2.12849086  1.24682593
+86                    Scleria_plusiophylla_SC239 -0.41424380 -1.62024023
+87                       Scleria_poiformis_SC280  0.35806026 -0.68995727
+88                       Scleria_polycarpa_SC122  1.42734311 -0.39253889
+89                      Scleria_polyrrhiza_SC299 -1.26636841  1.47771926
+90                         Scleria_pooides_SC364 -0.99598719  0.23866502
+91                 Scleria_pseudohispidior_SC454 -0.94207894  1.82509007
+92                       Scleria_pulchella_SC024 -1.91992844  1.00526467
+93                         Scleria_purdiei_SC053  1.70988149  0.86591259
+94                    Scleria_purpurascens_SC094  3.13716093 -0.98546616
+95                         Scleria_pusilla_SC447  0.60630855  1.12881509
+96                        Scleria_racemosa_SC109  0.50620792  0.36174215
+97                       Scleria_rehmannii_SC358 -0.21344503  1.99446223
+98                     Scleria_reticularis_SC192 -2.17440943 -1.15243858
+99                     Scleria_richardsiae_SC304 -1.95267548  0.86642792
+100                   Scleria_robinsoniana_SC305  0.70074382  0.80469042
+101                           Scleria_rosea_JG12  0.90689828 -1.94154648
+102                         Scleria_rugosa_SC043 -0.70828310  1.07052441
+103                   Scleria_rutenbergiana_JG03  1.74225254 -2.36572992
+104                         Scleria_scabra_SC088  0.63842704  0.54006578
+105                     Scleria_schiedeana_SC242 -1.13272457  0.33927662
+106                   Scleria_schimperiana_SC090 -1.26763003  1.86169365
+107                    Scleria_schliebenii_SC355 -1.69614597  0.21811700
+108                   Scleria_scrobiculata_SC100  2.14097262 -1.60375194
+109                         Scleria_secans_SC105  1.83993980 -0.57278015
+110                       Scleria_skutchii_SC244  4.51047235 -1.68094903
+111                      Scleria_sobolifer_SC040 -0.76035297 -0.82490195
+112                        Scleria_sororia_SC146  0.36284624  0.04086499
+113                     Scleria_sphacelata_SC259 -1.46643412 -0.04755841
+114                        Scleria_spicata_SC041 -0.46766780 -0.25038533
+115                    Scleria_spiciformis_SC246  2.35515291 -0.55580789
+116                Scleria_splitgerberiana_SC162  2.56686232  0.26950425
+117                        Scleria_sprucei_SC163  1.50232414 -0.13739195
+118                     Scleria_staheliana_SC164  2.52893683  0.36174290
+119                     Scleria_suaveolens_SC350 -1.33825143  1.42677180
+120                    Scleria_sumatrensis_SC097  2.68501747 -1.58990510
+121                        Scleria_tenella_SC044  1.22893413  0.62749155
+122                     Scleria_tepuiensis_SC167  2.47991545  0.34113414
+123                     Scleria_terrestris_SC055  0.07222921 -1.85915364
+124                     Scleria_tessellata_SC166 -0.62356104  2.24140664
+125                       Scleria_testacea_SC278  0.90904443 -0.38355907
+126                    Scleria_tonkinensis_SC098  0.88584411  0.04468741
+127                 Scleria_transvaalensis_SC168 -1.59689847 -0.93186068
+128                    Scleria_tricholepis_SC450  1.02713676  1.72171704
+129                    Scleria_tricristata_SC266 -0.75419711  2.14907878
+130                   Scleria_triglomerata_SC249 -5.68845654 -3.86809310
+131                    Scleria_unguiculata_SC250 -2.85900386  0.81182520
+132                      Scleria_verrucosa_SC171  1.57153910  0.23691522
+133                   Scleria_verticillata_SC319 -2.52726413 -1.82897074
+134              Scleria_veseyfitzgeraldii_SC301 -3.41890068  1.33565582
+135                        Scleria_virgata_SC118  0.19893468 -0.87252753
+136                        Scleria_vogelii_SC251  2.28463964  0.21219186
+137                    Scleria_welwitschii_SC442 -2.77668217 -1.01048146
+138                     Scleria_williamsii_SC121  1.69709268 -0.47036205
+139                         Scleria_woodii_SC326 -1.67213144 -0.39168335
+140                      Scleria_zambesica_SC335 -1.61504782  0.85628106
+             PC3
+1   -1.717010433
+2   -0.214969909
+3   -2.490383609
+4   -0.281506309
+5    1.675459255
+6    1.396351445
+7   -0.381954272
+8   -0.637249079
+9   -2.076320249
+10   0.384755142
+11  -0.580125801
+12  -0.183504678
+13  -0.410648309
+14   0.548632225
+15  -0.419284100
+16   0.163370046
+17  -0.022181631
+18  -0.985143045
+19  -1.383356247
+20  -0.375159680
+21   0.010945084
+22  -0.898390704
+23   1.661784557
+24   0.414548792
+25   0.655830279
+26  -0.214417737
+27   0.263915320
+28   0.934220026
+29  -0.289203983
+30  -0.796545034
+31   0.783668884
+32   0.301663683
+33  -1.968172419
+34   0.188680497
+35   0.392579368
+36  -0.325008806
+37   0.684950211
+38  -0.116871471
+39  -0.020660249
+40  -0.819426720
+41   0.306410847
+42   0.802373387
+43  -0.194657554
+44   0.495473437
+45   0.743467047
+46  -0.457861425
+47  -0.584828320
+48  -2.408032611
+49   0.450888270
+50   0.509111612
+51  -0.216929355
+52   0.535294708
+53   0.175684476
+54   0.106258215
+55   0.360186735
+56   0.136112828
+57   0.400311712
+58  -0.973556933
+59  -0.900223290
+60   0.097801325
+61   0.744233354
+62   0.017464045
+63  -0.335563185
+64   1.418301488
+65   0.907870466
+66   0.283109114
+67  -2.061399052
+68   1.596671956
+69   0.007996955
+70   0.424091135
+71   0.559546142
+72   0.323525356
+73  -0.421763179
+74   0.225862067
+75   0.497815347
+76   0.304714653
+77   0.369314546
+78   0.354268860
+79   2.168150527
+80   0.403051259
+81  -0.055536770
+82  -0.576458510
+83  -0.342060937
+84   0.484528093
+85  -1.137022033
+86   0.495784102
+87  -1.154362730
+88  -1.126707989
+89  -0.073066719
+90  -0.853273091
+91   0.772747666
+92   0.080633857
+93   0.759533655
+94   0.240204178
+95   0.269321211
+96  -0.464057844
+97   0.908701001
+98   0.649184390
+99  -0.871814943
+100  0.649605971
+101 -1.693003206
+102 -0.509658846
+103 -2.202398162
+104  0.302151364
+105 -2.171082332
+106  0.201202498
+107 -0.677648987
+108 -0.339083369
+109  0.423542192
+110  0.144161526
+111  0.936013793
+112 -0.122804326
+113 -0.061205758
+114 -0.349252911
+115 -0.548142574
+116  1.058851028
+117  0.103452768
+118  1.473736094
+119 -0.159276740
+120 -1.271114695
+121  0.133224511
+122  1.207241776
+123 -0.871088509
+124  0.701403220
+125  0.292791467
+126  0.150452795
+127 -0.846047723
+128  0.549346016
+129  0.481694369
+130  2.151476521
+131  0.477886593
+132  0.419665937
+133  1.341640468
+134  0.169856611
+135  0.971706939
+136  0.091631765
+137 -0.676529691
+138  0.342103707
+139  0.339365872
+140 -0.646551865
+> 
+> 
+> #Setting the char pca2
+> charpca2.p <- mydata3[,3] 
+> names(charpca2.p) = as.character(mydata3[,1])
+> charpca2.p
+                      Scleria_abortiva_SC226 
+                                 -1.88305141 
+                       Scleria_angusta_SC072 
+                                 -1.56216088 
+                 Scleria_ankaratrensis_SC022 
+                                 -1.44120571 
+                        Scleria_arguta_SC125 
+                                 -0.30744040 
+                      Scleria_balansae_SC203 
+                                 -2.12682673 
+                     Scleria_baldwinii_SC187 
+                                 -2.69667689 
+                  Scleria_bambariensis_SC204 
+                                  1.23145060 
+                Scleria_baroni-clarkei_SC205 
+                                 -0.31834837 
+                       Scleria_baronii_SC206 
+                                 -1.12610986 
+                    Scleria_bequaertii_SC381 
+                                 -0.25192239 
+                       Scleria_biflora_SC108 
+                                 -0.89562750 
+                      Scleria_boivinii_SC209 
+                                 -0.19404667 
+                     Scleria_bourgeaui_SC313 
+                                  0.83780633 
+                     Scleria_bracteata_SC068 
+                                  0.15674399 
+                       Scleria_brownii_SC059 
+                                  0.84212802 
+                     Scleria_bulbifera_SC378 
+                                  0.98340682 
+                    Scleria_burchellii_SC453 
+                                  0.50042011 
+                     Scleria_calcicola_SC070 
+                                  1.12529382 
+                 Scleria_carphiformis_SC062b 
+                                  0.84805695 
+                      Scleria_castanea_SC046 
+                                 -0.11796454 
+                    Scleria_catophylla_SC049 
+                                  0.14754806 
+                      Scleria_ciliaris_SC060 
+                                  0.59758583 
+                       Scleria_ciliata_SC189 
+                                 -2.92366557 
+                       Scleria_comosa_SC063b 
+                                  0.66236772 
+                     Scleria_composita_SC293 
+                                 -0.73326360 
+                     Scleria_corymbosa_SC096 
+                                 -0.82020723 
+                    Scleria_cuyabensis_SC457 
+                                  0.80665394 
+                      Scleria_cyperina_SC127 
+                                  0.13630542 
+                    Scleria_delicatula_SC288 
+                                  0.88594887 
+                   Scleria_depauperata_SC214 
+                                 -2.34248376 
+                      Scleria_depressa_SC054 
+                                  1.73441981 
+                       Scleria_distans_SC177 
+                                 -0.69553779 
+     Scleria_distans_var._chondrocarpa_SC031 
+                                 -1.56703054 
+                      Scleria_dregeana_SC384 
+                                 -0.21683150 
+                    Scleria_eggersiana_SC275 
+                                  0.07753011 
+                 Scleria_erythrorrhiza_SC023 
+                                  0.68841423 
+            Scleria_flagellum-nigrorum_SC129 
+                                 -0.65402624 
+                      Scleria_flexuosa_SC351 
+                                 -0.27286498 
+                       Scleria_foliosa_SC130 
+                                  1.29799935 
+                   Scleria_fulvipilosa_SC294 
+                                  1.26663074 
+                     Scleria_gaertneri_SC271 
+                                 -0.48406719 
+                     Scleria_georgiana_SC186 
+                                 -1.81192238 
+                        Scleria_glabra_SC269 
+                                  1.65416908 
+                      Scleria_globonux_SC133 
+                                  2.44281018 
+                    Scleria_goossensii_SC134 
+                                  0.15964080 
+                  Scleria_greigiifolia_SC075 
+                                  0.43394132 
+                 Scleria_hildebrandtii_SC137 
+                                  1.64027212 
+                  Scleria_hilsenbergii_SC032 
+                                 -1.00294888 
+                      Scleria_hirtella_SC445 
+                                 -0.27616190 
+                     Scleria_hispidior_SC455 
+                                  1.52303972 
+                     Scleria_hispidula_SC439 
+                                  1.81570395 
+                    Scleria_interrupta_SC318 
+                                  0.52227759 
+                    Scleria_iostephana_SC140 
+                                  0.66860608 
+                        Scleria_kerrii_SC102 
+                                  0.02056936 
+                     Scleria_lacustris_SC004 
+                                 -0.24524777 
+                     Scleria_lagoensis_SC224 
+                                  0.76052272 
+                     Scleria_latifolia_SC141 
+                                 -0.64959387 
+                          Scleria_laxa_SC142 
+                                  1.09111970 
+                     Scleria_laxiflora_SC446 
+                                  0.77908759 
+                  Scleria_leptostachya_SC296 
+                                  0.24044219 
+                      Scleria_liberica_SC436 
+                                  0.30783905 
+                   Scleria_lithosperma_SC182 
+                                  0.38539292 
+                Scleria_longispiculata_SC144 
+                                  1.12604686 
+                  Scleria_mackaviensis_SC110 
+                                 -2.00098466 
+                     Scleria_macrogyne_SC104 
+                                  0.10074611 
+                   Scleria_macrophylla_SC145 
+                                 -0.33795896 
+               Scleria_madagascariensis_JG23 
+                                 -1.79610508 
+                   Scleria_maypurensis_SC451 
+                                  1.17143937 
+                  Scleria_melanomphala_SC112 
+                                  0.01218258 
+                  Scleria_melanotricha_SC449 
+                                  0.88114208 
+                    Scleria_microcarpa_SC107 
+                                 -0.41148256 
+                         Scleria_mitis_SC148 
+                                 -0.40630954 
+                  Scleria_mongomoensis_SC029 
+                                 -0.47867007 
+                   Scleria_naumanniana_SC150 
+                                  0.74189404 
+                        Scleria_neesii_SC023 
+                                 -0.07342960 
+                     Scleria_nyasensis_SC232 
+                                  0.30875869 
+                        Scleria_oblata_SC093 
+                                  0.18215042 
+                        Scleria_obtusa_SC154 
+                                 -0.05669210 
+                     Scleria_oligantha_SC236 
+                                 -3.31109780 
+                    Scleria_panicoides_SC155 
+                                 -1.90656247 
+                    Scleria_pantadenia_SC252 
+                                  1.50572652 
+                    Scleria_paupercula_SC382 
+                                  1.32976623 
+                   Scleria_pedicellata_SC435 
+                                 -0.26741352 
+                   Scleria_pergracilis_SC123 
+                                  1.53742232 
+Scleria_pergracilis_var._brachystachys_SC349 
+                                  1.24682593 
+                  Scleria_plusiophylla_SC239 
+                                 -1.62024023 
+                     Scleria_poiformis_SC280 
+                                 -0.68995727 
+                     Scleria_polycarpa_SC122 
+                                 -0.39253889 
+                    Scleria_polyrrhiza_SC299 
+                                  1.47771926 
+                       Scleria_pooides_SC364 
+                                  0.23866502 
+               Scleria_pseudohispidior_SC454 
+                                  1.82509007 
+                     Scleria_pulchella_SC024 
+                                  1.00526467 
+                       Scleria_purdiei_SC053 
+                                  0.86591259 
+                  Scleria_purpurascens_SC094 
+                                 -0.98546616 
+                       Scleria_pusilla_SC447 
+                                  1.12881509 
+                      Scleria_racemosa_SC109 
+                                  0.36174215 
+                     Scleria_rehmannii_SC358 
+                                  1.99446223 
+                   Scleria_reticularis_SC192 
+                                 -1.15243858 
+                   Scleria_richardsiae_SC304 
+                                  0.86642792 
+                  Scleria_robinsoniana_SC305 
+                                  0.80469042 
+                          Scleria_rosea_JG12 
+                                 -1.94154648 
+                        Scleria_rugosa_SC043 
+                                  1.07052441 
+                  Scleria_rutenbergiana_JG03 
+                                 -2.36572992 
+                        Scleria_scabra_SC088 
+                                  0.54006578 
+                    Scleria_schiedeana_SC242 
+                                  0.33927662 
+                  Scleria_schimperiana_SC090 
+                                  1.86169365 
+                   Scleria_schliebenii_SC355 
+                                  0.21811700 
+                  Scleria_scrobiculata_SC100 
+                                 -1.60375194 
+                        Scleria_secans_SC105 
+                                 -0.57278015 
+                      Scleria_skutchii_SC244 
+                                 -1.68094903 
+                     Scleria_sobolifer_SC040 
+                                 -0.82490195 
+                       Scleria_sororia_SC146 
+                                  0.04086499 
+                    Scleria_sphacelata_SC259 
+                                 -0.04755841 
+                       Scleria_spicata_SC041 
+                                 -0.25038533 
+                   Scleria_spiciformis_SC246 
+                                 -0.55580789 
+               Scleria_splitgerberiana_SC162 
+                                  0.26950425 
+                       Scleria_sprucei_SC163 
+                                 -0.13739195 
+                    Scleria_staheliana_SC164 
+                                  0.36174290 
+                    Scleria_suaveolens_SC350 
+                                  1.42677180 
+                   Scleria_sumatrensis_SC097 
+                                 -1.58990510 
+                       Scleria_tenella_SC044 
+                                  0.62749155 
+                    Scleria_tepuiensis_SC167 
+                                  0.34113414 
+                    Scleria_terrestris_SC055 
+                                 -1.85915364 
+                    Scleria_tessellata_SC166 
+                                  2.24140664 
+                      Scleria_testacea_SC278 
+                                 -0.38355907 
+                   Scleria_tonkinensis_SC098 
+                                  0.04468741 
+                Scleria_transvaalensis_SC168 
+                                 -0.93186068 
+                   Scleria_tricholepis_SC450 
+                                  1.72171704 
+                   Scleria_tricristata_SC266 
+                                  2.14907878 
+                  Scleria_triglomerata_SC249 
+                                 -3.86809310 
+                   Scleria_unguiculata_SC250 
+                                  0.81182520 
+                     Scleria_verrucosa_SC171 
+                                  0.23691522 
+                  Scleria_verticillata_SC319 
+                                 -1.82897074 
+             Scleria_veseyfitzgeraldii_SC301 
+                                  1.33565582 
+                       Scleria_virgata_SC118 
+                                 -0.87252753 
+                       Scleria_vogelii_SC251 
+                                  0.21219186 
+                   Scleria_welwitschii_SC442 
+                                 -1.01048146 
+                    Scleria_williamsii_SC121 
+                                 -0.47036205 
+                        Scleria_woodii_SC326 
+                                 -0.39168335 
+                     Scleria_zambesica_SC335 
+                                  0.85628106 
+> #Setting the char bio18 variation
+> sdpca2 <- rep(0.5, 140)
+> names(sdpca2) = as.character(mydata3[,1])
+> sdpca2
+                      Scleria_abortiva_SC226 
+                                         0.5 
+                       Scleria_angusta_SC072 
+                                         0.5 
+                 Scleria_ankaratrensis_SC022 
+                                         0.5 
+                        Scleria_arguta_SC125 
+                                         0.5 
+                      Scleria_balansae_SC203 
+                                         0.5 
+                     Scleria_baldwinii_SC187 
+                                         0.5 
+                  Scleria_bambariensis_SC204 
+                                         0.5 
+                Scleria_baroni-clarkei_SC205 
+                                         0.5 
+                       Scleria_baronii_SC206 
+                                         0.5 
+                    Scleria_bequaertii_SC381 
+                                         0.5 
+                       Scleria_biflora_SC108 
+                                         0.5 
+                      Scleria_boivinii_SC209 
+                                         0.5 
+                     Scleria_bourgeaui_SC313 
+                                         0.5 
+                     Scleria_bracteata_SC068 
+                                         0.5 
+                       Scleria_brownii_SC059 
+                                         0.5 
+                     Scleria_bulbifera_SC378 
+                                         0.5 
+                    Scleria_burchellii_SC453 
+                                         0.5 
+                     Scleria_calcicola_SC070 
+                                         0.5 
+                 Scleria_carphiformis_SC062b 
+                                         0.5 
+                      Scleria_castanea_SC046 
+                                         0.5 
+                    Scleria_catophylla_SC049 
+                                         0.5 
+                      Scleria_ciliaris_SC060 
+                                         0.5 
+                       Scleria_ciliata_SC189 
+                                         0.5 
+                       Scleria_comosa_SC063b 
+                                         0.5 
+                     Scleria_composita_SC293 
+                                         0.5 
+                     Scleria_corymbosa_SC096 
+                                         0.5 
+                    Scleria_cuyabensis_SC457 
+                                         0.5 
+                      Scleria_cyperina_SC127 
+                                         0.5 
+                    Scleria_delicatula_SC288 
+                                         0.5 
+                   Scleria_depauperata_SC214 
+                                         0.5 
+                      Scleria_depressa_SC054 
+                                         0.5 
+                       Scleria_distans_SC177 
+                                         0.5 
+     Scleria_distans_var._chondrocarpa_SC031 
+                                         0.5 
+                      Scleria_dregeana_SC384 
+                                         0.5 
+                    Scleria_eggersiana_SC275 
+                                         0.5 
+                 Scleria_erythrorrhiza_SC023 
+                                         0.5 
+            Scleria_flagellum-nigrorum_SC129 
+                                         0.5 
+                      Scleria_flexuosa_SC351 
+                                         0.5 
+                       Scleria_foliosa_SC130 
+                                         0.5 
+                   Scleria_fulvipilosa_SC294 
+                                         0.5 
+                     Scleria_gaertneri_SC271 
+                                         0.5 
+                     Scleria_georgiana_SC186 
+                                         0.5 
+                        Scleria_glabra_SC269 
+                                         0.5 
+                      Scleria_globonux_SC133 
+                                         0.5 
+                    Scleria_goossensii_SC134 
+                                         0.5 
+                  Scleria_greigiifolia_SC075 
+                                         0.5 
+                 Scleria_hildebrandtii_SC137 
+                                         0.5 
+                  Scleria_hilsenbergii_SC032 
+                                         0.5 
+                      Scleria_hirtella_SC445 
+                                         0.5 
+                     Scleria_hispidior_SC455 
+                                         0.5 
+                     Scleria_hispidula_SC439 
+                                         0.5 
+                    Scleria_interrupta_SC318 
+                                         0.5 
+                    Scleria_iostephana_SC140 
+                                         0.5 
+                        Scleria_kerrii_SC102 
+                                         0.5 
+                     Scleria_lacustris_SC004 
+                                         0.5 
+                     Scleria_lagoensis_SC224 
+                                         0.5 
+                     Scleria_latifolia_SC141 
+                                         0.5 
+                          Scleria_laxa_SC142 
+                                         0.5 
+                     Scleria_laxiflora_SC446 
+                                         0.5 
+                  Scleria_leptostachya_SC296 
+                                         0.5 
+                      Scleria_liberica_SC436 
+                                         0.5 
+                   Scleria_lithosperma_SC182 
+                                         0.5 
+                Scleria_longispiculata_SC144 
+                                         0.5 
+                  Scleria_mackaviensis_SC110 
+                                         0.5 
+                     Scleria_macrogyne_SC104 
+                                         0.5 
+                   Scleria_macrophylla_SC145 
+                                         0.5 
+               Scleria_madagascariensis_JG23 
+                                         0.5 
+                   Scleria_maypurensis_SC451 
+                                         0.5 
+                  Scleria_melanomphala_SC112 
+                                         0.5 
+                  Scleria_melanotricha_SC449 
+                                         0.5 
+                    Scleria_microcarpa_SC107 
+                                         0.5 
+                         Scleria_mitis_SC148 
+                                         0.5 
+                  Scleria_mongomoensis_SC029 
+                                         0.5 
+                   Scleria_naumanniana_SC150 
+                                         0.5 
+                        Scleria_neesii_SC023 
+                                         0.5 
+                     Scleria_nyasensis_SC232 
+                                         0.5 
+                        Scleria_oblata_SC093 
+                                         0.5 
+                        Scleria_obtusa_SC154 
+                                         0.5 
+                     Scleria_oligantha_SC236 
+                                         0.5 
+                    Scleria_panicoides_SC155 
+                                         0.5 
+                    Scleria_pantadenia_SC252 
+                                         0.5 
+                    Scleria_paupercula_SC382 
+                                         0.5 
+                   Scleria_pedicellata_SC435 
+                                         0.5 
+                   Scleria_pergracilis_SC123 
+                                         0.5 
+Scleria_pergracilis_var._brachystachys_SC349 
+                                         0.5 
+                  Scleria_plusiophylla_SC239 
+                                         0.5 
+                     Scleria_poiformis_SC280 
+                                         0.5 
+                     Scleria_polycarpa_SC122 
+                                         0.5 
+                    Scleria_polyrrhiza_SC299 
+                                         0.5 
+                       Scleria_pooides_SC364 
+                                         0.5 
+               Scleria_pseudohispidior_SC454 
+                                         0.5 
+                     Scleria_pulchella_SC024 
+                                         0.5 
+                       Scleria_purdiei_SC053 
+                                         0.5 
+                  Scleria_purpurascens_SC094 
+                                         0.5 
+                       Scleria_pusilla_SC447 
+                                         0.5 
+                      Scleria_racemosa_SC109 
+                                         0.5 
+                     Scleria_rehmannii_SC358 
+                                         0.5 
+                   Scleria_reticularis_SC192 
+                                         0.5 
+                   Scleria_richardsiae_SC304 
+                                         0.5 
+                  Scleria_robinsoniana_SC305 
+                                         0.5 
+                          Scleria_rosea_JG12 
+                                         0.5 
+                        Scleria_rugosa_SC043 
+                                         0.5 
+                  Scleria_rutenbergiana_JG03 
+                                         0.5 
+                        Scleria_scabra_SC088 
+                                         0.5 
+                    Scleria_schiedeana_SC242 
+                                         0.5 
+                  Scleria_schimperiana_SC090 
+                                         0.5 
+                   Scleria_schliebenii_SC355 
+                                         0.5 
+                  Scleria_scrobiculata_SC100 
+                                         0.5 
+                        Scleria_secans_SC105 
+                                         0.5 
+                      Scleria_skutchii_SC244 
+                                         0.5 
+                     Scleria_sobolifer_SC040 
+                                         0.5 
+                       Scleria_sororia_SC146 
+                                         0.5 
+                    Scleria_sphacelata_SC259 
+                                         0.5 
+                       Scleria_spicata_SC041 
+                                         0.5 
+                   Scleria_spiciformis_SC246 
+                                         0.5 
+               Scleria_splitgerberiana_SC162 
+                                         0.5 
+                       Scleria_sprucei_SC163 
+                                         0.5 
+                    Scleria_staheliana_SC164 
+                                         0.5 
+                    Scleria_suaveolens_SC350 
+                                         0.5 
+                   Scleria_sumatrensis_SC097 
+                                         0.5 
+                       Scleria_tenella_SC044 
+                                         0.5 
+                    Scleria_tepuiensis_SC167 
+                                         0.5 
+                    Scleria_terrestris_SC055 
+                                         0.5 
+                    Scleria_tessellata_SC166 
+                                         0.5 
+                      Scleria_testacea_SC278 
+                                         0.5 
+                   Scleria_tonkinensis_SC098 
+                                         0.5 
+                Scleria_transvaalensis_SC168 
+                                         0.5 
+                   Scleria_tricholepis_SC450 
+                                         0.5 
+                   Scleria_tricristata_SC266 
+                                         0.5 
+                  Scleria_triglomerata_SC249 
+                                         0.5 
+                   Scleria_unguiculata_SC250 
+                                         0.5 
+                     Scleria_verrucosa_SC171 
+                                         0.5 
+                  Scleria_verticillata_SC319 
+                                         0.5 
+             Scleria_veseyfitzgeraldii_SC301 
+                                         0.5 
+                       Scleria_virgata_SC118 
+                                         0.5 
+                       Scleria_vogelii_SC251 
+                                         0.5 
+                   Scleria_welwitschii_SC442 
+                                         0.5 
+                    Scleria_williamsii_SC121 
+                                         0.5 
+                        Scleria_woodii_SC326 
+                                         0.5 
+                     Scleria_zambesica_SC335 
+                                         0.5 
+> 
+> library(diversitree)
+> p <- starting.point.quasse(phy, charpca2.p)
+> p
+   lambda        mu diffusion 
+0.2410261 0.1266492 0.2925781 
+> xr <- range(charpca2.p) + c(-1, 1) * 20 * p["diffusion"]
+> xr
+[1] -9.719656  8.294373
+> linear.x <- make.linear.x(xr[1], xr[2])
+> make <- function(lambda, mu) make.quasse(phy, charpca2.p, sdpca2, lambda, mu, sampling.f=0.50)
+> nodrift <- function(f) constrain(f, drift ~ 0)
+> f.c.c <- make(constant.x, constant.x)
+> f.l.c <- make(linear.x, constant.x)
+> f.s.c <- make(sigmoid.x, constant.x) 
+> f.h.c <- make(noroptimal.x, constant.x) 
+>  
+> control <- list(parscale = 0.1, reltol = 0.001)
+> biopca2.mle.c.c <- find.mle(nodrift(f.c.c), p, lower = 0, control = control, verbose = 0)
+> biopca2.p.c <- biopca2.mle.c.c$par
+> biopca2.p.c
+   lambda        mu diffusion 
+0.4827890 0.3685443 0.1109018 
+> biopca2.p.l.c <- c(biopca2.p.c[1], l.m = 0, biopca2.p.c[2:3])
+> biopca2.p.l.c
+   lambda       l.m        mu diffusion 
+0.4827890 0.0000000 0.3685443 0.1109018 
+> biopca2.p.s.c <- c(biopca2.p.c[1], biopca2.p.c[1], mean(charpca2.p), 1, biopca2.p.c[2:3])
+> biopca2.p.s.c
+      lambda       lambda                                     mu    diffusion 
+4.827890e-01 4.827890e-01 2.154821e-16 1.000000e+00 3.685443e-01 1.109018e-01 
+> biopca2.p.h.c <- c(biopca2.p.c[1], biopca2.p.c[1], mean(charpca2.p), 1, biopca2.p.c[2:3])
+> biopca2.p.h.c
+      lambda       lambda                                     mu    diffusion 
+4.827890e-01 4.827890e-01 2.154821e-16 1.000000e+00 3.685443e-01 1.109018e-01 
+> biopca2.mle.d.c.c <- find.mle(f.c.c, coef(biopca2.mle.c.c, TRUE), control = control, verbose = 0)
+> biopca2.mle.l.c <- find.mle(nodrift(f.l.c), biopca2.p.l.c, control = control, verbose = 0)
+> biopca2.mle.d.l.c <- find.mle(f.l.c, coef(biopca2.mle.l.c, TRUE), control = control, verbose = 0)
+> biopca2.mle.s.c <- find.mle(nodrift(f.s.c), biopca2.p.s.c, control = control, verbose = 0)
+Warning messages:
+1: In sqrt(diffusion * dt) : Se han producido NaNs
+2: In sqrt(diffusion * dt) : Se han producido NaNs
+> biopca2.mle.d.s.c <- find.mle(f.s.c, coef(biopca2.mle.s.c, TRUE), control = control, verbose = 0)
+> biopca2.mle.h.c <- find.mle(nodrift(f.h.c), biopca2.p.h.c, control = control, verbose = 0)
+> biopca2.mle.d.h.c <- find.mle(f.h.c, coef(biopca2.mle.h.c, TRUE), control = control, verbose = 0)
+> biopca2.anova <- anova(biopca2.mle.c.c, OU.constant.constant = biopca2.mle.d.c.c, BM.linear.constant = biopca2.mle.l.c, OU.linear.constant = biopca2.mle.d.l.c, BM.sigmoid.constant = biopca2.mle.s.c, OU.sigmoid.constant = biopca2.mle.d.s.c, BM.hump.constant = biopca2.mle.h.c, OU.hump.constant = biopca2.mle.d.h.c)
+> biopca2.anova
+                     Df   lnLik    AIC   ChiSq Pr(>|Chi|)    
+minimal               3 -491.00 987.99                       
+OU.constant.constant  4 -491.00 989.99  0.0001  0.9915213    
+BM.linear.constant    4 -484.91 977.83 12.1677  0.0004862 ***
+OU.linear.constant    5 -484.53 979.06 12.9296  0.0015573 ** 
+BM.sigmoid.constant   6 -484.12 980.23 13.7602  0.0032504 ** 
+OU.sigmoid.constant   7 -480.13 974.26 21.7389  0.0002259 ***
+BM.hump.constant      6 -482.65 977.29 16.6997  0.0008147 ***
+OU.hump.constant      7 -479.33 972.67 23.3278  0.0001089 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> save.image(file="biopca2myEnvironment.RData")
+> 
+> proc.time()
+     user    system   elapsed 
+15147.579     0.458 15139.989 
