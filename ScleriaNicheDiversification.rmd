@@ -161,27 +161,42 @@ save.image(file="bio1myEnvironmentbio1.RData")
 Let's check the results for bio1
 
 ```{r}
-load(file="myEnvironment.RData")
-#printing results
-char.p <- seq(12,132)
-lambda.d.h.c <- noroptimal.x(char.p, bio1.mle.d.h.c$par[1], bio1.mle.d.h.c$par[2], bio1.mle.d.h.c$par[3], bio1.mle.d.h.c$par[4])
-plot(char.p, lambda.d.h.c, type = "l")
-lambda.d.c.c <- constant.x(char.p, bio1.mle.d.c.c$par[1])
-plot(char.p, lambda.d.c.c, type = "l")
-lambda.d.s.c <- sigmoid.x(char.p, bio1.mle.d.s.c$par[1], bio1.mle.d.s.c$par[2], bio1.mle.d.s.c$par[3], bio1.mle.d.s.c$par[4])
-plot(char.p, lambda.d.s.c, type = "l")
-lambda.d.l.c <- linear.x(char.p, bio1.mle.d.l.c$par[1], bio1.mle.d.l.c$par[2])
-plot(char.p, lambda.d.l.c, type = "l")
-lambda.h.c <- noroptimal.x(char.p, bio1.mle.h.c$par[1], bio1.mle.h.c$par[2], bio1.mle.h.c$par[3], bio1.mle.h.c$par[4])
-plot(char.p, lambda.h.c, type = "l")
-lambda.c.c <- constant.x(char.p, bio1.mle.c.c$par[1])
-plot(char.p, lambda.c.c, type = "l")
-lambda.s.c <- sigmoid.x(char.p, bio1.mle.s.c$par[1], bio1.mle.s.c$par[2], bio1.mle.s.c$par[3], bio1.mle.s.c$par[4])
-plot(char.p, lambda.s.c, type = "l")
-lambda.l.c <- linear.x(char.p, bio1.mle.l.c$par[1], bio1.mle.l.c$par[2])
-plot(char.p, lambda.l.c, type = "l")
-# the plot of the current best model... it's little rare, the peak is too much strong
-save.image(file="bio1myEnvironment.RData")
+load(file="./char1/bio1myEnvironment.RData")
+    #printing results. Best model BM.hump.constant (bio1.mle.h.c), so hump speciation and constant extinction
+    states.seq <- seq(min(char1.p),max(char1.p)) #Create a vector for the range of states
+    bio1.mle.h.c #Look for the $par values, that are fully explained in $par.full
+    #Those parameters will make the functions
+    mu.c <- constant.x(states.seq, bio1.mle.h.c$par[5])
+    plot(states.seq, mu.c, type = "l")
+    lambda.h <- noroptimal.x(states.seq, bio1.mle.h.c$par[1], bio1.mle.h.c$par[2], bio1.mle.h.c$par[3], bio1.mle.h.c$par[4])
+    plot(states.seq, lambda.h, type = "l")
+    div <- lambda.h - mu.c
+    plot(states.seq, div, type = "l")
+
+load(file="./char4/bio4myEnvironment.RData")
+    #printing results. Best model OU.sigmoid.constant (bio4.mle.d.s.c), so sigmoid speciation and constant extinction
+    states.seq <- seq(min(char4.p),max(char4.p)) #Create a vector for the range of states
+    bio4.mle.d.s.c #Look for the $par values, that are fully explained in $par.full
+    #Those parameters will make the functions
+    mu.c <- constant.x(states.seq, bio4.mle.d.s.c$par[5])
+    plot(states.seq, mu.c, type = "l")
+    lambda.s <- sigmoid.x(states.seq, bio4.mle.d.s.c$par[1], bio4.mle.d.s.c$par[2], bio4.mle.d.s.c$par[3], bio4.mle.d.s.c$par[4])
+    plot(states.seq, lambda.s, type = "l")
+    div <- lambda.s - mu.c
+    plot(states.seq, div, type = "l")
+
+    load(file="./char12/bio12myEnvironment.RData")
+    #printing results. Best model OU.sigmoid.constant (bio12.mle.d.s.c), so sigmoid speciation and constant extinction
+    states.seq <- seq(min(char12.p),max(char12.p)) #Create a vector for the range of states
+    bio12.mle.d.s.c #Look for the $par values, that are fully explained in $par.full
+    #Those parameters will make the functions
+    mu.c <- constant.x(states.seq, bio12.mle.d.s.c$par[5])
+    plot(states.seq, mu.c, type = "l")
+    lambda.s <- sigmoid.x(states.seq, bio12.mle.d.s.c$par[1], bio12.mle.d.s.c$par[2], bio12.mle.d.s.c$par[3], bio12.mle.d.s.c$par[4])
+    plot(states.seq, lambda.s, type = "l")
+    div <- lambda.s - mu.c
+    plot(states.seq, div, type = "l")
+
 ```
 
 

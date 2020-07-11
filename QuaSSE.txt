@@ -1,0 +1,54 @@
+bio1                 Df   lnLik    AIC  ChiSq Pr(>|Chi|)    
+BM.constant.constant  3 -973.07 1952.1                      
+OU.constant.constant  4 -973.03 1954.0  0.092  0.7622448    
+BM.linear.constant    4 -965.65 1939.3 14.842  0.0001169 
+OU.linear.constant    5 -965.39 1940.8 15.360  0.0004619 
+BM.sigmoid.constant   6 -961.85 1935.7 22.448  5.262e-05 
+OU.sigmoid.constant   7 -959.24 1932.5 27.656  1.464e-05 
+BM.hump.constant      6 -950.97 1913.9 44.210  1.362e-09 
+OU.hump.constant      7 -950.36 1914.7 45.416  3.258e-09 
+bio4                 Df   lnLik    AIC   ChiSq Pr(>|Chi|)    
+BM.constant.constant  3 -1454.0 2914.0                       
+OU.constant.constant  4 -1451.0 2910.1  5.8862  0.0152601   
+BM.linear.constant    4 -1446.1 2900.1 15.8669  6.796e-05 
+OU.linear.constant    5 -1445.5 2901.0 16.9453  0.0002091 
+BM.sigmoid.constant   6 -1439.3 2890.5 29.4696  1.784e-06 
+OU.sigmoid.constant   7 -1438.9 2891.9 30.1161  4.635e-06 
+BM.hump.constant      6 -1445.6 2903.1 16.8638  0.0007538 
+OU.hump.constant      7 -1445.3 2904.7 17.2757  0.0017085  
+bio7                 Df    lnLik    AIC   ChiSq Pr(>|Chi|)    
+BM.constant.constant  3 -1007.75 2021.5                       
+OU.constant.constant  4 -1007.69 2023.4  0.1200  0.7290701    
+BM.linear.constant    4 -1004.45 2016.9  6.6123  0.0101278   
+OU.linear.constant    5 -1003.26 2016.5  8.9801  0.0112203   
+BM.sigmoid.constant   6 -1000.22 2012.4 15.0731  0.0017552  
+OU.sigmoid.constant   7  -997.70 2009.4 20.1122  0.0004746 
+BM.hump.constant      6  -991.96 1995.9 31.5829  6.407e-07 
+OU.hump.constant      7  -991.95 1997.9 31.6003  2.309e-06 
+bio12                Df   lnLik    AIC  ChiSq Pr(>|Chi|)    
+BM.constant.constant  3 -1348.3 2702.7                      
+OU.constant.constant  4 -1342.6 2693.1 11.522  0.0006876 
+BM.linear.constant    4 -1348.2 2704.5  0.176  0.6747656    
+OU.linear.constant    5 -1338.5 2687.1 19.589  5.576e-05 
+BM.sigmoid.constant   6 -1337.2 2686.4 22.217  5.879e-05 
+OU.sigmoid.constant   7 -1332.5 2678.9 31.700  2.203e-06 
+BM.hump.constant      6 -1336.3 2684.7 23.958  2.549e-05 
+OU.hump.constant      7 -1336.2 2686.4 24.280  7.017e-05 
+bio15                Df   lnLik    AIC   ChiSq Pr(>|Chi|)    
+BM.constant.constant  3 -906.49 1819.0                       
+OU.constant.constant  4 -906.44 1820.9  0.1011  0.7504777    
+BM.linear.constant    4 -900.75 1809.5 11.4787  0.0007040 
+OU.linear.constant    5 -900.72 1811.4 11.5310  0.0031339  
+BM.sigmoid.constant   6 -899.61 1811.2 13.7573  0.0032548  
+OU.sigmoid.constant   7 -895.28 1804.6 22.4136  0.0001658 
+BM.hump.constant      6 -891.76 1795.5 29.4562  1.796e-06 
+OU.hump.constant      7 -891.27 1796.5 30.4262  4.008e-06
+bio18                Df   lnLik    AIC  ChiSq Pr(>|Chi|)    
+BM.constant.constant  3 -1201.1 2408.2                      
+OU.constant.constant  4 -1201.1 2410.2  0.000  0.9906947    
+BM.linear.constant    4 -1194.0 2396.1 14.150  0.0001688 
+OU.linear.constant    5 -1193.9 2397.7 14.502  0.0007095 
+BM.sigmoid.constant   6 -1193.2 2398.3 15.947  0.0011628  
+OU.sigmoid.constant   7 -1189.1 2392.1 24.098  7.636e-05 
+BM.hump.constant      6 -1185.9 2383.8 30.415  1.129e-06 
+OU.hump.constant      7 -1183.8 2381.5 34.741  5.251e-07 
